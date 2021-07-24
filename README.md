@@ -12,6 +12,8 @@ File `api/functions/image-grayscale/src/main.rs` implements the grayscaling logi
 
 We define custom build in `api/pre.sh` which is called in package.json to download the [WasmEdge command](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.2). 
 
+![](/netlify-wasmedge-runtime.gif)
+
 
 ## Learn More
 
