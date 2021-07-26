@@ -94,8 +94,6 @@ export default function Home() {
           URL.revokeObjectURL(b);
         };
       })(img);
-      // const blob = new Blob([e.target.result], {type: 'application/octet-stream'});
-
       oReq.send(buf2hex(e.target.result));
     };
     reader.readAsArrayBuffer(origImg.file);
