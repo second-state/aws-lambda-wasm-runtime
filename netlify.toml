@@ -1,8 +1,0 @@
-[functions]
-  # Sets a custom directory for Netlify Functions
-  directory = "api/"
-
-  # Specifies `esbuild` for functions bundling
-  node_bundler = "esbuild"
-
-  included_files = ["api/**"]
