@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/nodejs:14
 
-# Create app directory
+# Change directory to /var/task
 WORKDIR /var/task
 
 RUN yum update -y && yum install -y curl tar gzip

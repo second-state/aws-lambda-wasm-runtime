@@ -81,7 +81,7 @@ export default function Home() {
     reader.onload = function(e) {
       setLoading(true);
       var oReq = new XMLHttpRequest();
-      oReq.open("POST", "http://localhost:9000/2015-03-31/functions/function/invocations", true);
+      oReq.open("POST", process.env.NEXT_PUBLIC_FUNCTION_URL, true);
       oReq.onload = (function(bImg) {
         return function (oEvent) {
           setLoading(false);
