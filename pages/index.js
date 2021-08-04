@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Netlify Wasm Runtime</title>
-        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+        <title>AWS Lambda Wasm Runtime</title>
+        <link rel="icon" type="image/png" href="/favicon.png" sizes="16x16" />
       </Head>
 
       <main className={styles.main}>
@@ -39,11 +39,11 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
-          href="https://netlify.com/"
+          href="https://aws.amazon.com/lambda/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by Netlify
+          Powered by AWS Lambda
         </a>
       </footer>
     </div>
