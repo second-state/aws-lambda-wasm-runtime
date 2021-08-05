@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Netlify Wasm Runtime</title>
-        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+        <title>AWS Lambda Wasm Runtime</title>
+        <link rel="icon" type="image/png" href="/favicon.png" sizes="16x16" />
       </Head>
 
       <main className={styles.main}>
@@ -35,11 +35,11 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
-          href="https://netlify.com/"
+          href="https://aws.amazon.com/lambda/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by Netlify
+          Powered by AWS Lambda 
         </a>
       </footer>
     </div>
@@ -76,7 +76,7 @@ export default function Home() {
     reader.onload = function(e) {
       setLoading(true);
       var oReq = new XMLHttpRequest();
-      oReq.open("POST", process.env.NEXT_PUBLIC_FUNCTION_URL, true);
+      oReq.open("POST", "https://yxxjv6j7m3.execute-api.us-east-1.amazonaws.com/default/classify", true);
       oReq.onload = function() {
           setLoading(false);
           setRes(oReq.response);
