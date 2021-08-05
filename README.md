@@ -1,8 +1,8 @@
 ## [Demo for image processing](https://60fe22f9ff623f0007656040--reverent-hodgkin-dc1f51.netlify.app) | [Demo for tensorflow](https://60ff7e2d10fe590008db70a9--reverent-hodgkin-dc1f51.netlify.app)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/cassidoo/next-netlify-starter).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This project is aimed to demonstrate how to implement a Serverless Functions working with Webassembly in Netlify. The [main branch](https://github.com/second-state/netlify-wasm-runtime/tree/main) showcases an image processing function, and the [tensorflow branch](https://github.com/second-state/netlify-wasm-runtime/tree/tensorflow) showcases an AI inference function. Both written in simple Rust and runs in the [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge) for WebAssembly.
+This project is aimed to demonstrate how to implement a Serverless Functions working with Webassembly in AWS Lambda. The [main branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/main) showcases an image processing function, and the [tensorflow branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow) showcases an AI inference function. Both written in simple Rust and runs in the [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge) for WebAssembly.
 
 ## Overview
 
