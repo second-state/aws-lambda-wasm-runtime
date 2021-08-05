@@ -76,7 +76,7 @@ export default function Home() {
     reader.onload = function(e) {
       setLoading(true);
       var oReq = new XMLHttpRequest();
-      oReq.open("POST", "https://yxxjv6j7m3.execute-api.us-east-1.amazonaws.com/default/classify", true);
+      oReq.open("POST", process.env.NEXT_PUBLIC_FUNCTION_URL, true);
       oReq.onload = function() {
           setLoading(false);
           setRes(oReq.response);
