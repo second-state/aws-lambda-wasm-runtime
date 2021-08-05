@@ -11,7 +11,7 @@ COPY pre.sh ./
 RUN chmod +x pre.sh
 RUN ./pre.sh
 
-# Bundle the JS bootstrap server
+# Bundle the JS files
 COPY *.js ./
 
 CMD [ "hello.handler" ]
