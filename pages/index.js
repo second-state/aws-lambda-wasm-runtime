@@ -76,7 +76,7 @@ export default function Home() {
     reader.onload = function(e) {
       setLoading(true);
       var oReq = new XMLHttpRequest();
-      oReq.open("POST", '/.netlify/functions/hello', true);
+      oReq.open("POST", process.env.NEXT_PUBLIC_FUNCTION_URL, true);
       oReq.onload = function() {
           setLoading(false);
           setRes(oReq.response);
