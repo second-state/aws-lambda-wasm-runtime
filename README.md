@@ -1,20 +1,106 @@
-## [Demo for image processing](https://60fe22f9ff623f0007656040--reverent-hodgkin-dc1f51.netlify.app) | [Demo for tensorflow](https://60ff7e2d10fe590008db70a9--reverent-hodgkin-dc1f51.netlify.app)
+## [Demo for image processing](https://secondstate.github.io/aws-lambda-wasm-runtime/) | [Demo for tensorflow](https://robnanarivo.github.io/aws-lambda-wasm-runtime/)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This project is aimed to demonstrate how to implement a Serverless Functions working with WebAssembly in AWS Lambda, using our [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge). Docker is also required for this demo.
 
-This project is aimed to demonstrate how to implement a Serverless Functions working with Webassembly in AWS Lambda. The [main branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/main) showcases an image processing function, and the [tensorflow branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow) showcases an AI inference function. Both written in simple Rust and runs in the [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge) for WebAssembly.
+The [main branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/main) showcases an image processing function, and the [tensorflow branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow) showcases an AI inference function. Both written in simple Rust and runs in the [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge) for WebAssembly.
 
-## Overview
+## Function Overview
 
-The Serverless Functions endpoint is located at `api/hello.js` to meet the requirement of Netlify, but not to the Next.js. So if you want to develop on you local machine, you should put it into `pages/api/` and make some change.
+The Serverless Functions endpoint is located at `api/hello.js` to meet the requirement of AWS Lambda. AWS Lambda requires a [function handler](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html) as the entry point for various events.
 
-The only function in `api/hello.js` is grayscaling an image. It receives a png file and pass it as stdin stream to a spawned child process. The child process runs using the [WasmEdge](https://github.com/WasmEdge/WasmEdge) command.
+The only function in `api/hello.js` is `grayscale`, which transforms a colored image into a grayscale image. It receives a PNG file and pass it as STDIN stream to a spawned child process. The child process runs using the [WasmEdge](https://github.com/WasmEdge/WasmEdge) command.
 
 File `api/functions/image-grayscale/src/main.rs` implements the grayscaling logic. You can build it with the Rust `cargo` command with the `-target wasm32-wasi` option to get the `grayscale.wasm` file.
 
 We define custom build in `api/pre.sh` which is called in package.json to download the [WasmEdge command](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.2). 
 
-![](/netlify-wasmedge-runtime.gif)
+![](./aws-lambda-wasmedge-runtime.gif)
+
+## Deploy
+
+### Create An Image Repository on Amazon ECR
+
+Go to your Amazon [Elastic Container Registry](https://console.aws.amazon.com/ecr/repositories) (ECR) and create a new image repository. Note that you need to set the visibility settings to **Private** in order to use the image to create a serverless function on AWS Lambda.
+
+![](./docs/images/1. repo.png)
+
+### Build Your Docker Image Locally
+
+We have everything we need to build a docker image in the [api/](#) folder. 
+
+- [grayscale.wasm](#) is the WebAssembly function that turns a colored picture into black and white. grayscale.wasm is compiled from [main.rs](#) in [api/functions/image-grayscale/src](#), written in Rust.
+
+- [hello.js](#) is the handler function that passes data of the HTTP request to the grayscale function and runs it. This is required by AWS Lambda.
+
+- [pre.sh](#) is the shell script that installs the WasmEdge runtime and all its dependencies. pre.sh is executed while building the Docker image.
+
+To build the image, make sure the [Dockerfile](#) we provided is in the api/ folder and run
+
+```
+$ cd api
+$ docker build -t aws_lambda_grayscale .
+```
+
+### Push Your Image to ECR Repository
+
+You can follow the instructions provided by your ECR repository to push the image. Note that [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) is required in this step.
+
+![](./docs/images/2. push.png)
+
+### Create A Serverless Function from Repository Image
+
+Now go to [AWS Lambda Console](https://console.aws.amazon.com/lambda/home) and create a new serverless function. Choose to create a function from **container image**. Put in the name of your function and your container image URL. You can browse images from your private repositories on Amazon ECR or simply paste the container image URL.
+
+![](./docs/images/3. function.png) 
+
+### Set Up An API Trigger for Your Serverless Function
+
+After creating your function, we need to set up a trigger for your function. A trigger simply defines how your function is called. In this demo we want to call our function through HTTP request, so we will create an API as the trigger.
+
+Click **Add trigger**.
+
+![](./docs/images/4. trigger.png)
+
+Choose **API Gateway** as trigger type. For API type, choose **REST API**. For Security, choose **Open**.
+
+![](./docs/images/5. api.png)
+
+Once we have created our API, we see that an API endpoint is now available. This is the URL we can use to call our serverless function.
+
+![](./docs/images/7. link.png)
+
+### Enable CORS
+
+Finally, if we want to call our function within a browser, we need to enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). To do so, we need to click the linked text **grayscale-API** next to API Gateway to enter the Amazon API Gateway console.
+
+In the API Gateway console, click **Actions** and choose **Enable CORS**.
+
+![](./docs/images/8. CORS1.png)
+
+Default options should be enough for our demo.
+
+![](./docs/images/8. CORS2.png)
+
+### Troubleshooting
+
+If you find that your serverless function always returns `internal server error`, if might be due to that the default timeout interval is too short for our function to execute. The default timeout interval is 3 seconds for any AWS Lambda function. You may increase the timeout interval to give enough time for the serverless function to execute. Setting **Timeout** to 30 seconds should be more than enough.
+
+![](./docs/images/9. troubleshoot.png)
+
+## Set Up the Front-End
+
+This demo provides a simple front-end UI made by Next.js. It is a static web page deployed through GitHub pages.
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Learn More
@@ -27,9 +113,3 @@ To learn more about Next.js, take a look at the following resources:
 To learn more about Serverless Functions in Netlify, take a look at the following resources:
 
 - [Serverless Functions](https://docs.netlify.com/functions/overview/) - how to write your Serverless Functions.
-
-## Deploy on Netlify
-
-The easiest way to deploy your Next.js app is to use the [Netlify Platform](https://www.netlify.com/with/nextjs/).
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
