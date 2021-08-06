@@ -67,7 +67,7 @@ Choose **API Gateway** as trigger type. For API type, choose **REST API**. For S
 
 Once we have created our API, we see that an API endpoint is now available. This is the URL we can use to call our serverless function.
 
-![](./docs/images/7. link.png)
+![](./docs/images/6. link.png)
 
 ### Enable CORS
 
@@ -75,7 +75,7 @@ Finally, if we want to call our function within a browser, we need to enable [CO
 
 In the API Gateway console, click **Actions** and choose **Enable CORS**.
 
-![](./docs/images/8. CORS1.png)
+![](./docs/images/7. CORS1.png)
 
 Default options should be enough for our demo.
 
