@@ -22,7 +22,7 @@ We define custom build in [api/pre.sh](#) which is called in package.json to dow
 
 Go to your Amazon [Elastic Container Registry](https://console.aws.amazon.com/ecr/repositories) (ECR) and create a new image repository. Note that you need to set the visibility settings to **Private** in order to use the image to create a serverless function on AWS Lambda.
 
-![](/docs/images/1. repo.png)
+![](./docs/images/1. repo.png)
 
 ### Build Your Docker Image Locally
 
@@ -45,13 +45,13 @@ $ docker build -t aws_lambda_grayscale .
 
 You can follow the instructions provided by your ECR repository to push the image. Note that [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) is required in this step.
 
-![](/docs/images/2. push.png)
+![](./docs/images/2. push.png)
 
 ### Create A Serverless Function from Repository Image
 
 Now go to [AWS Lambda Console](https://console.aws.amazon.com/lambda/home) and create a new serverless function. Choose to create a function from **container image**. Put in the name of your function and your container image URL. You can browse images from your private repositories on Amazon ECR or simply paste the container image URL.
 
-![](/docs/images/3. function.png) 
+![](./docs/images/3. function.png) 
 
 ### Set Up An API Trigger for Your Serverless Function
 
@@ -59,15 +59,15 @@ After creating your function, we need to set up a trigger for your function. A t
 
 Click **Add trigger**.
 
-![](/docs/images/4. trigger.png)
+![](./docs/images/4. trigger.png)
 
 Choose **API Gateway** as trigger type. For API type, choose **REST API**. For Security, choose **Open**.
 
-![](/docs/images/5. api.png)
+![](./docs/images/5. api.png)
 
 Once we have created our API, we see that an API endpoint is now available. This is the URL we can use to call our serverless function.
 
-![](/docs/images/6. link.png)
+![](./docs/images/6. link.png)
 
 ### Enable CORS
 
@@ -75,23 +75,23 @@ Finally, if we want to call our function within a browser, we need to enable [CO
 
 In the API Gateway console, click **Actions** and choose **Enable CORS**.
 
-![](/docs/images/7. CORS1.png)
+![](./docs/images/7. CORS1.png)
 
 Default options should be enough for our demo.
 
-![](/docs/images/8. CORS2.png)
+![](./docs/images/8. CORS2.png)
 
 ### Troubleshooting
 
 If you find that your serverless function always returns `internal server error`, if might be due to that the default timeout interval is too short for our function to execute. The default timeout interval is 3 seconds for any AWS Lambda function. You may increase the timeout interval to give enough time for the serverless function to execute. Setting **Timeout** to 30 seconds should be more than enough.
 
-![](/docs/images/9. troubleshoot.png)
+![](./docs/images/9. troubleshoot.png)
 
 ## Set Up the Front-End
 
 This demo provides a simple front-end UI made by [Next.js](https://nextjs.org). It is a static web page deployed through GitHub pages. To set up this static page, all you need to do is add your serverless function endpoint URL to Secrets in the Settings page under the name `NEXT_PUBLIC_FUNCTION_URL`, as shown below.
 
-![](/docs/images/10. page.png)
+![](./docs/images/10. page.png)
 
 We use GitHub Actions to generate pages, so the workflow in [.github/workflow/deploy.yml](#) (which builds the front-end page) is triggered every time you commit your changes.
 
