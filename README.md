@@ -1,4 +1,4 @@
-## [Demo for image processing](https://secondstate.github.io/aws-lambda-wasm-runtime/) | [Demo for tensorflow](https://robnanarivo.github.io/aws-lambda-wasm-runtime/)
+## [Demo for image processing](https://second-state.github.io/aws-lambda-wasm-runtime/) | [Demo for tensorflow](https://robnanarivo.github.io/aws-lambda-wasm-runtime/)
 
 This project is aimed to demonstrate how to implement a Serverless Functions working with WebAssembly in AWS Lambda, using our [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge). Docker is also required for this demo.
 
@@ -6,13 +6,13 @@ The [main branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/m
 
 ## Function Overview
 
-The Serverless Functions endpoint is located at [api/hello.js](#) to meet the requirement of AWS Lambda. AWS Lambda requires a [function handler](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html) as the entry point for various events.
+The Serverless Functions endpoint is located at [api/hello.js](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/hello.js) to meet the requirement of AWS Lambda. AWS Lambda requires a [function handler](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html) as the entry point for various events.
 
-The only function in [api/hello.js](#) is `classify`, which classifies food in a photo. It receives a JPG file and pass it as STDIN stream to a spawned child process. The child process runs using the [wasmedge-tensorflow-lite](https://github.com/second-state/WasmEdge-tensorflow-tools) command.
+The only function in [api/hello.js](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/hello.js) is `classify`, which classifies food in a photo. It receives a JPG file and pass it as STDIN stream to a spawned child process. The child process runs using the [wasmedge-tensorflow-lite](https://github.com/second-state/WasmEdge-tensorflow-tools) command.
 
-File `api/functions/image-classify/src/main.rs` implements the grayscaling logic. You can build it with the Rust `cargo` command with the `-target wasm32-wasi` option to get the [classify.wasm](#) file.
+File `api/functions/image-classify/src/main.rs` implements the grayscaling logic. You can build it with the Rust `cargo` command with the `-target wasm32-wasi` option to get the [classify.wasm](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/classify.wasm) file.
 
-We define custom build in [api/pre.sh](#) which is called in package.json to download the [WasmEdge command](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.2). 
+We define custom build in [api/pre.sh](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/pre.sh) which is called in package.json to download the [WasmEdge command](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.2). 
 
 ![](aws-lambda-wasmedge-runtime.gif)
 
@@ -26,15 +26,13 @@ Go to your Amazon [Elastic Container Registry](https://console.aws.amazon.com/ec
 
 ### Build Your Docker Image Locally
 
-We have everything we need to build a docker image in the [api/](#) folder. 
+We have everything we need to build a docker image in the [api/](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow/api) folder. 
 
-- [classify.wasm](#) is the WebAssembly function that turns a colored picture into black and white. classify.wasm is compiled from [main.rs](#) in [api/functions/image-classification/src](#), written in Rust.
+- [classify.wasm](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/classify.wasm) is the WebAssembly function that turns a colored picture into black and white. classify.wasm is compiled from [main.rs](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/functions/image-classification/src/main.rs) in [api/functions/image-classification/src](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow/api/functions/image-classification/src), written in Rust.
+- [hello.js](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/hello.js) is the handler function that passes data of the HTTP request to the classify function and runs it. This is required by AWS Lambda.
+- [pre.sh](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/pre.sh) is the shell script that installs the WasmEdge runtime and the Tensorflow extension, as well as all their dependencies. pre.sh is executed while building the Docker image.
 
-- [hello.js](#) is the handler function that passes data of the HTTP request to the classify function and runs it. This is required by AWS Lambda.
-
-- [pre.sh](#) is the shell script that installs the WasmEdge runtime and the Tensorflow extension, as well as all their dependencies. pre.sh is executed while building the Docker image.
-
-To build the image, make sure the [Dockerfile](#) we provided is in the api/ folder and run
+To build the image, make sure the [Dockerfile](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/Dockerfile) we provided is in the api/ folder and run
 
 ```
 $ cd api
@@ -93,7 +91,7 @@ This demo provides a simple front-end UI made by [Next.js](https://nextjs.org). 
 
 ![](docs/images/10.page.png)
 
-We use GitHub Actions to generate pages, so the workflow in [.github/workflow/deploy.yml](#) (which builds the front-end page) is triggered every time you commit your changes.
+We use GitHub Actions to generate pages, so the workflow in [.github/workflow/deploy.yml](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/.github/workflows/deploy.yml) (which builds the front-end page) is triggered every time you commit your changes.
 
 **Caveats:**
 
@@ -103,7 +101,7 @@ We use GitHub Actions to generate pages, so the workflow in [.github/workflow/de
 
 ## Create Your Own Function and Deploy
 
-[classify.wasm](#) is built with `cargo` as follows:
+[classify.wasm](https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/api/classify.wasm) is built with `cargo` as follows:
 
 ```
 $ cd api/functions/image-classify/
