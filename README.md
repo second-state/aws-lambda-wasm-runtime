@@ -2,6 +2,8 @@
 
 This project is aimed to demonstrate how to implement a Serverless Functions working with WebAssembly in AWS Lambda, using our [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge). Docker is also required for this demo.
 
+![](docs/images/service_arch.png)
+
 The [main branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/main) showcases an image processing function, and the [tensorflow branch](https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow) showcases an AI inference function. Both written in simple Rust and runs in the [WasmEdge runtime](https://github.com/WasmEdge/WasmEdge) for WebAssembly.
 
 ## Function Overview
@@ -14,7 +16,7 @@ File `api/functions/image-grayscale/src/main.rs` implements the grayscaling logi
 
 We define custom build in [api/pre.sh](https://github.com/second-state/aws-lambda-wasm-runtime/blob/main/api/pre.sh) which is called in package.json to download the [WasmEdge command](https://github.com/WasmEdge/WasmEdge/releases/tag/0.8.2). 
 
-![](aws-lambda-wasmedge-runtime.gif)
+![](docs/images/aws-lambda-wasmedge-runtime.gif)
 
 ## Deploy
 
